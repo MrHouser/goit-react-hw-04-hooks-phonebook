@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import shortid from 'shortid';
 import Form from './Form/Form';
 import Contacts from './Contacts/Contacts';
@@ -12,6 +12,7 @@ function App() {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]);
   const [filter, setFilter] = useState('');
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const lowerCasedFilter = filter.toLowerCase();
   const filteredContacts = contacts.filter(contact =>
@@ -26,11 +27,9 @@ function App() {
     }
   }, []);
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
+    if (isFirstRender) {
+      setIsFirstRender(false);
       return;
     }
     localStorage.setItem('contacts', JSON.stringify(contacts));
